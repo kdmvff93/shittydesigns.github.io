@@ -1,0 +1,62 @@
+#This is a guide on how to setup website - on nginx.
+#DO NOT RUN THIS DIRECTLY AS A BASH SCRIPT!
+#Get everything ready, randomly does an upgrade, out of bordom
+
+apt-get update
+apt-get upgrade
+apt-get install nginx
+cd /var/www/
+git clone https://github.com/shittydesigns/shittydesigns.github.io.git
+mv shittydesigns.github.io thecattoken.com
+
+#REDIRECT ALL TRAFFIC FROM WWW TO NON-WWW.
+#CNAME COULD WORK, BUT IT'S NOT THE BEST OPTION OUT THERE.
+#IF IN DOUBT, REFER TO
+#https://www.digitalocean.com/community/tutorials/how-to-redirect-www-to-non-www-with-nginx-on-centos-7
+
+nano /etc/nginx/conf.d/redirect.conf
+
+server {
+    server_name www.thecattoken.com;
+    return 301 $scheme://thecattoken.com$request_uri;
+}
+
+#COPY PASTE THIS INTO /etc/nginx/sites-available
+
+cd /etc/nginx/sites-available
+nano thecattoken.com
+
+    server {
+        index index.html;
+        server_name thecattoken.com;
+        root /var/www/thecattoken.com/;
+        access_log /var/log/nginx/access.log;
+        
+        ###
+        #Honeypots
+        ###
+        
+        location ~* \.(php|cfg|cgi|ini|bak|xml)$ {
+                return 500;
+        }
+        
+        location ~* \.(console|vendor|myadmin) {
+                return 200;
+        }
+        
+        #Randoms without logging
+        #location = /favicon.ico { log_not_found off; access_log off; }
+        location = /robots.txt { log_not_found off; access_log off; allow all; }
+        
+        location ~* \.(css|gif|ico|jpeg|jpg|js|png)$ {
+           expires max;
+           log_not_found off;
+        }
+        
+        error_page 404 /custom_404.html;
+        }
+
+ln -s /etc/nginx/sites-available/thecattoken.com /etc/nginx/sites-enabled/thecattoken.com
+
+sudo systemctl restart nginx
+# This should not throw an error.
