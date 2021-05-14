@@ -59,4 +59,5 @@ nano thecattoken.com
 ln -s /etc/nginx/sites-available/thecattoken.com /etc/nginx/sites-enabled/thecattoken.com
 
 sudo systemctl restart nginx
-# This should not throw an error.
+#This should not throw an error
+#Remember to add certbot after
