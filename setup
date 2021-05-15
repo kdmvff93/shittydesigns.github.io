@@ -18,6 +18,7 @@ rm setup
 #CNAME COULD WORK, BUT IT'S NOT THE BEST OPTION OUT THERE.
 #IF IN DOUBT, REFER TO
 #https://www.digitalocean.com/community/tutorials/how-to-redirect-www-to-non-www-with-nginx-on-centos-7
+#https://webdock.io/en/docs/how-guides/shared-hosting-multiple-websites/how-configure-nginx-to-serve-multiple-websites-single-vps
 
 nano /etc/nginx/conf.d/redirect.conf
 
