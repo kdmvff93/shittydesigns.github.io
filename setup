@@ -39,7 +39,7 @@ nano thecattoken.com
         access_log /var/log/nginx/access.log;
         
         #Randoms without logging
-        #location = /favicon.ico { log_not_found off; access_log off; }
+        location = /favicon.ico { log_not_found off; access_log off; }
         location = /robots.txt { log_not_found off; access_log off; allow all; }
         
         location ~* \.(css|gif|ico|jpeg|jpg|js|png)$ {
@@ -58,3 +58,12 @@ sudo systemctl restart nginx
 #Wabmail!?!
 #https://websiteforstudents.com/setup-roundcube-webmail-on-ubuntu-16-04-18-04-with-nginx-mariadb-and-php-7-2-fpm/
 #https://www.rosehosting.com/blog/how-to-install-roundcube-webmail-on-ubuntu-20-04/
+#https://github.com/roundcube/roundcubemail
+#CHECK IT, VER!!!
+
+wget "INSERT LINK HERE"
+tar -xvzf roundcubemail-1.4.11-complete.tar.gz
+sudo mv roundcubemail-1.4.11 /var/www/thecattoken.com/webmail
+sudo chown -R www-data:www-data /var/www/thecattoken.com/webmail/
+#sudo find /var/www/thecattoken.com/webmail/ -type d -exec chmod 750 {} ;
+#sudo find /var/www/thecattoken.com/webmail/ -type f -exec chmod 640 {} ;
