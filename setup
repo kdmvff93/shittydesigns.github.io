@@ -5,10 +5,15 @@
 apt-get update
 apt-get upgrade
 apt-get install nginx
+
 cd /var/www/
 git clone https://github.com/shittydesigns/shittydesigns.github.io.git
 mv shittydesigns.github.io thecattoken.com
 
+cd thecattoken.com
+rm setup
+
+#Remember to add certbot, for Let's Encrypt
 #REDIRECT ALL TRAFFIC FROM WWW TO NON-WWW.
 #CNAME COULD WORK, BUT IT'S NOT THE BEST OPTION OUT THERE.
 #IF IN DOUBT, REFER TO
@@ -32,18 +37,6 @@ nano thecattoken.com
         root /var/www/thecattoken.com/;
         access_log /var/log/nginx/access.log;
         
-        ###
-        #Honeypots
-        ###
-        
-        location ~* \.(php|cfg|cgi|ini|bak|xml)$ {
-                return 500;
-        }
-        
-        location ~* \.(console|vendor|myadmin) {
-                return 200;
-        }
-        
         #Randoms without logging
         #location = /favicon.ico { log_not_found off; access_log off; }
         location = /robots.txt { log_not_found off; access_log off; allow all; }
@@ -58,6 +51,9 @@ nano thecattoken.com
 
 ln -s /etc/nginx/sites-available/thecattoken.com /etc/nginx/sites-enabled/thecattoken.com
 
-sudo systemctl restart nginx
 #This should not throw an error
-#Remember to add certbot after
+sudo systemctl restart nginx
+
+#Wabmail!?!
+#https://websiteforstudents.com/setup-roundcube-webmail-on-ubuntu-16-04-18-04-with-nginx-mariadb-and-php-7-2-fpm/
+#https://www.rosehosting.com/blog/how-to-install-roundcube-webmail-on-ubuntu-20-04/
