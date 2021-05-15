@@ -46,7 +46,14 @@ nano thecattoken.com
            expires max;
            log_not_found off;
         }
-        
+  
+      location ~ \.php$ {
+         include snippets/fastcgi-php.conf;
+         fastcgi_pass unix:/var/run/php/php7.4-fpm.sock;
+         fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+         include fastcgi_params;
+    }
+  
         error_page 404 /custom_404.html;
         }
 
@@ -64,6 +71,8 @@ sudo systemctl restart nginx
 wget "INSERT LINK HERE"
 tar -xvzf roundcubemail-1.4.11-complete.tar.gz
 sudo mv roundcubemail-1.4.11 /var/www/thecattoken.com/webmail
-sudo chown -R www-data:www-data /var/www/thecattoken.com/webmail/
-#sudo find /var/www/thecattoken.com/webmail/ -type d -exec chmod 750 {} ;
-#sudo find /var/www/thecattoken.com/webmail/ -type f -exec chmod 640 {} ;
+
+cd /var/www/thecattoken.com/webmail
+sudo chown -R www-data:www-data *
+sudo chmod 755 {dir}
+sudo chmod 644 {files}
